@@ -1,19 +1,75 @@
-There are 2 files (CSV) containing data exported from our laser survey system in the same location but using two different measurement methods. These files conatain a small section of survey data collected by HDS. I would like to see a simple dashboard displaying the key data in a visually interesting and informative way.
+# React + TypeScript + Vite
 
-There are two different test methods on the same section of road (MPD and UKRI). These are the key elements for creating charts/visualisations.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Section = row reference
-Start (m) = Start of each section
-End (m) = End of each section
-Station (m) = Distance of section
-MPD = Mean Profile Depth - measuring Texture Depth (mm)
-UKRI = UK Ride index - measuring surface irregualarity (m/km)
-GPS = Geolocation in decimal degrees (Latitude, Longitude)
+Currently, two official plugins are available:
 
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-Please visualise the data in a simple dashboard however you like with a focus on UI and UX elements. I would like to see elements such as charts, maps & tables with interactive/dynamic element and method of highligtihn any points of interests (high values etc).
+## React Compiler
 
-The purpose of this is just to see if and how you would display this data with minimal background knowledge and i'm more interested in how you handle datasets and what creativity you have so don't focus on what the data actually means or worry about it making perfect sense.
-This should just be a quick exercise so please don't spend a large amount of time on it.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-Please submit once complete for review and we discuss in the interview.
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+
+```
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+
+```
