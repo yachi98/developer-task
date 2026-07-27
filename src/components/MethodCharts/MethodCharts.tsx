@@ -1,6 +1,6 @@
 import { METHOD_COLORS } from "../../theme";
-import { MethodChart } from "../MethodChart";
-import { Panel } from "../Panel";
+import { MethodChart } from "../MethodChart/MethodChart";
+import { Panel } from "../Panel/Panel";
 
 export function MethodCharts({
   mpd,

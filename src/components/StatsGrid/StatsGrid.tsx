@@ -1,4 +1,4 @@
-import { StatCard } from "../StatCard";
+import { StatCard } from "../StatCard/StatCard";
 
 export function StatsGrid({ items }: { items: any[] }) {
   return (
