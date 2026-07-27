@@ -1,6 +1,7 @@
 import { METHOD_META } from "../../data/types";
 import { METHOD_COLORS } from "../../theme";
 import type { Method } from "../../data/types";
+import "./MethodControls.scss";
 
 export function MethodControls({
   method,

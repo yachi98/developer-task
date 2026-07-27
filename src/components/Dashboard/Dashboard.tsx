@@ -9,9 +9,9 @@ import { SurveyMap } from "../SurveyMap/SurveyMap";
 import { DataTable } from "../DataTable/DataTable";
 import { StatsGrid } from "../StatsGrid/StatsGrid";
 import { MethodControls } from "../MethodControls/MethodControls";
+import { Header } from "../Header/Header";
 import { Panel } from "../Panel/Panel";
 import "./Dashboard.scss";
-// import type { StatsGrid } from "../StatsGrid/StatsGrid";
 
 // Readings in the top 10% are flagged as points of interest.
 const HIGHLIGHT_PCT = 90;
@@ -89,25 +89,7 @@ export function Dashboard() {
 
   return (
     <div className="dashboard">
-      <div className="dashboard__header">
-        <img
-          className="dashboard__logo"
-          src="/hds-logo.svg"
-          alt="Highway Data Systems"
-          width="20"
-          height="20"
-        />
-
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <div>
-            <div>
-              <h1 className="dashboard__title">
-                Highway <span>Survey Dashboard</span>
-              </h1>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Header />
 
       {/* Controls */}
       <MethodControls
