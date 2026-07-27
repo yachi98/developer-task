@@ -27,7 +27,7 @@ export function parseUkri(text: string): SurveyReading[] {
     const [lat, latDir, lon, lonDir] = parts[5].trim().split(/\s+/);
 
     return {
-      method: "UKRI",
+      metric: "UKRI",
       section: Number(parts[1]),
       start,
       end,
@@ -49,7 +49,7 @@ export function parseMpd(text: string): SurveyReading[] {
     const [start, end] = parts[1].split(/\s*to\s*/).map(Number);
 
     return {
-      method: "MPD",
+      metric: "MPD",
       section: Number(parts[0]),
       start,
       end,

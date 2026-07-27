@@ -1,9 +1,9 @@
 import { useCallback, useMemo, useState } from "react";
 import { useSurveyData } from "../../hooks/useSurveyData";
 import { summarise } from "../../data/stats";
-import type { Method } from "../../data/types";
-import { METHOD_META } from "../../data/types";
-import { METHOD_COLORS } from "../../theme";
+import type { Metric } from "../../data/types";
+import { METRIC_META } from "../../data/types";
+import { METRIC_COLORS } from "../../theme";
 import { MethodCharts } from "../MethodCharts/MethodCharts";
 import { SurveyMap } from "../SurveyMap/SurveyMap";
 import { DataTable } from "../DataTable/DataTable";
@@ -18,7 +18,7 @@ const HIGHLIGHT_PCT = 90;
 
 export function Dashboard() {
   const { mpd, ukri, loading, error } = useSurveyData();
-  const [method, setMethod] = useState<Method>("MPD");
+  const [metric, setMetric] = useState<Metric>("MPD");
   const [selected, setSelected] = useState<number | null>(null);
 
   // Flag the top 10% highest readings as "points of interest".
@@ -28,17 +28,17 @@ export function Dashboard() {
   // Stable handlers so the memoised chart/map/table skip needless re-renders.
   const handleSelect = useCallback((s: number | null) => setSelected(s), []);
   const selectMpd = useCallback((s: number | null) => {
-    setMethod("MPD");
+    setMetric("MPD");
     setSelected(s);
   }, []);
   const selectUkri = useCallback((s: number | null) => {
-    setMethod("UKRI");
+    setMetric("UKRI");
     setSelected(s);
   }, []);
 
-  const active = method === "MPD" ? mpd : ukri;
-  const activeSummary = method === "MPD" ? mpdSummary : ukriSummary;
-  const meta = METHOD_META[method];
+  const active = metric === "MPD" ? mpd : ukri;
+  const activeSummary = metric === "MPD" ? mpdSummary : ukriSummary;
+  const meta = METRIC_META[metric];
 
   const poiCount = active.filter(
     (r) => r.value >= activeSummary.threshold,
@@ -54,7 +54,7 @@ export function Dashboard() {
       value: activeSummary.avg.toFixed(2),
       unit: meta.unit,
       accent: true,
-      color: METHOD_COLORS[method],
+      color: METRIC_COLORS[metric],
     },
     {
       label: "Peak",
@@ -93,8 +93,8 @@ export function Dashboard() {
 
       {/* Controls */}
       <MethodControls
-        method={method}
-        setMethod={setMethod}
+        metric={metric}
+        setMetric={setMetric}
         setSelected={setSelected}
         meta={meta}
         activeSummary={activeSummary}
@@ -108,7 +108,7 @@ export function Dashboard() {
         mpdSummary={mpdSummary}
         ukri={ukri}
         ukriSummary={ukriSummary}
-        method={method}
+        metric={metric}
         selected={selected}
         selectMpd={selectMpd}
         selectUkri={selectUkri}
@@ -124,7 +124,7 @@ export function Dashboard() {
           <SurveyMap
             readings={active}
             summary={activeSummary}
-            color={METHOD_COLORS[method]}
+            color={METRIC_COLORS[metric]}
             selectedSection={selected}
             onSelect={handleSelect}
           />

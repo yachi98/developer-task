@@ -1,6 +1,6 @@
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import type { SurveyReading } from "../../data/types";
-import { METHOD_META } from "../../data/types";
+import { METRIC_META } from "../../data/types";
 import type { Summary } from "../../data/stats";
 import "./DataTable.scss";
 
@@ -19,7 +19,7 @@ function DataTableImpl({
   selectedSection,
   onSelect,
 }: Props) {
-  const meta = METHOD_META[readings[0]?.method ?? "MPD"];
+  const meta = METRIC_META[readings[0]?.metric ?? "MPD"];
   const [sortKey, setSortKey] = useState<SortKey>("section");
   const [desc, setDesc] = useState(false);
   const selectedRef = useRef<HTMLTableRowElement | null>(null);

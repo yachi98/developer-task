@@ -10,7 +10,7 @@ import {
 } from "react-leaflet";
 import type { LatLngBoundsExpression, LatLngExpression } from "leaflet";
 import type { SurveyReading } from "../../data/types";
-import { METHOD_META } from "../../data/types";
+import { METRIC_META } from "../../data/types";
 import type { Summary } from "../../data/stats";
 import { POI_COLOR, SELECTED_COLOR } from "../../theme";
 import "leaflet/dist/leaflet.css";
@@ -49,7 +49,7 @@ function SurveyMapImpl({
   selectedSection,
   onSelect,
 }: Props) {
-  const meta = METHOD_META[readings[0]?.method ?? "MPD"];
+  const meta = METRIC_META[readings[0]?.metric ?? "MPD"];
 
   const valid = useMemo(
     () =>

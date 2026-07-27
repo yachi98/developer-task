@@ -14,8 +14,8 @@
   --cyan-400: #22d3ee;
 
   /* Data palette — shared by CSS and JS (charts/map read these via theme.ts) */
-  --method-mpd: #22d3ee; /* cyan */
-  --method-ukri: #a855f7; /* violet */
+  --metric-mpd: #22d3ee; /* cyan */
+  --metric-ukri: #a855f7; /* violet */
   --poi: #f43f5e; /* points of interest (high values) */
   --selected: #ffffff; /* active selection */
 
