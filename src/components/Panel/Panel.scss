@@ -1,0 +1,44 @@
+.panel {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+  }
+
+  &__tag {
+    font-size: 12px;
+    font-family: var(--mono);
+    color: var(--cyan-400);
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid var(--cyan-soft);
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  &__body {
+    padding: 16px;
+
+    &--flush {
+      padding: 0;
+
+      .table-scroll {
+        max-height: 420px;
+        border-radius: 0;
+      }
+    }
+  }
+}
