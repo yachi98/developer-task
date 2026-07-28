@@ -17,6 +17,10 @@
     justify-content: center;
     color: hsl(var(--muted-foreground));
   }
+
+  > .panel {
+    margin-bottom: 20px;
+  }
 }
 
 .spinner {
