@@ -11,9 +11,9 @@ import {
   type Chart,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import type { Metric, SurveyReading } from "../../data/types";
-import { METRIC_META } from "../../data/types";
-import type { Summary } from "../../data/stats";
+import type { Metric, SurveyReading } from "../../lib/types";
+import { METRIC_META } from "../../lib/types";
+import type { Summary } from "../../lib/stats";
 import { METRIC_COLORS, POI_COLOR, SELECTED_COLOR } from "../../theme";
 import "./ComparisonChart.scss";
 

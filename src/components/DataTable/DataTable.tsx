@@ -1,7 +1,7 @@
 import { memo, useEffect, useMemo, useRef, useState } from "react";
-import type { SurveyReading } from "../../data/types";
-import { METRIC_META } from "../../data/types";
-import type { Summary } from "../../data/stats";
+import type { SurveyReading } from "../../lib/types";
+import { METRIC_META } from "../../lib/types";
+import type { Summary } from "../../lib/stats";
 import "./DataTable.scss";
 
 interface DataTableProps {

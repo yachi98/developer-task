@@ -1,4 +1,4 @@
-import type { Metric } from "./data/types";
+import type { Metric } from "./lib/types";
 
 /**
  * Reads a CSS custom property from :root so the palette has a single source

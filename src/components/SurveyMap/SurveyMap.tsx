@@ -9,9 +9,9 @@ import {
   useMap,
 } from "react-leaflet";
 import type { LatLngBoundsExpression, LatLngExpression } from "leaflet";
-import type { SurveyReading } from "../../data/types";
-import { METRIC_META } from "../../data/types";
-import type { Summary } from "../../data/stats";
+import type { SurveyReading } from "../../lib/types";
+import { METRIC_META } from "../../lib/types";
+import type { Summary } from "../../lib/stats";
 import { POI_COLOR, SELECTED_COLOR } from "../../theme";
 import "leaflet/dist/leaflet.css";
 import "./SurveyMap.scss";

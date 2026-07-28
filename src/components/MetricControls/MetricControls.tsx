@@ -1,7 +1,7 @@
-import { METRIC_META } from "../../data/types";
+import { METRIC_META } from "../../lib/types";
 import { METRIC_COLORS } from "../../theme";
-import type { Metric, MetricMeta } from "../../data/types";
-import type { Summary } from "../../data/stats";
+import type { Metric, MetricMeta } from "../../lib/types";
+import type { Summary } from "../../lib/stats";
 import "./MetricControls.scss";
 
 interface MetricControlsProps {

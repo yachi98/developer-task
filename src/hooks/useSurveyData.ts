@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import type { SurveyReading } from "../data/types";
-import { parseMpd, parseUkri } from "../data/parseCSV";
+import type { SurveyReading } from "../lib/types";
+import { parseMpd, parseUkri } from "../lib/parseCSV";
 
-const BASE = "/data/A602 Trial Area_1_EB_Matt Harris R1_202606011457";
+const BASE = "/surveys/A602 Trial Area_1_EB_Matt Harris R1_202606011457";
 const UKRI_FILE = `${BASE}.csv`;
 const MPD_FILE = `${BASE}_Texture_1_10.csv`;
 

@@ -1,8 +1,8 @@
 import { useCallback, useMemo, useState } from "react";
 import { useSurveyData } from "../../hooks/useSurveyData";
-import { calculateMetricStats } from "../../data/stats";
-import type { Metric } from "../../data/types";
-import { METRIC_META } from "../../data/types";
+import { calculateMetricStats } from "../../lib/stats";
+import type { Metric } from "../../lib/types";
+import { METRIC_META } from "../../lib/types";
 import { METRIC_COLORS } from "../../theme";
 import { ComparisonChart } from "../ComparisonChart/ComparisonChart";
 import { SurveyMap } from "../SurveyMap/SurveyMap";
@@ -96,10 +96,7 @@ export function Dashboard() {
         activeSummary={activeSummary}
       />
       <StatsGrid items={statItems} />
-      <Panel
-        title="MPD vs UKRI along the route"
-        tag={`${meta.label} focused`}
-      >
+      <Panel title="MPD vs UKRI along the route" tag={`${meta.label} focused`}>
         <ComparisonChart
           mpd={mpd}
           ukri={ukri}
