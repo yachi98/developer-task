@@ -104,7 +104,7 @@ readings, computed as the 90th percentile of the active metric.
 - Charts: **Chart.js** — Lightweight line charts with
   good control over the threshold line and point styling.
 - Map: **Leaflet** — Simple, reliable slippy map for the
-  route and point-of-interest markers.
+  route and point-of-interest markers, but also used on the website so wanted it to be consistent.
 - Styling: **SCSS** — One stylesheet per component, with a shared palette and
   glass surface defined as CSS custom properties in `index.css`.
 
