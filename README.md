@@ -37,11 +37,11 @@ then bundles with Vite) and preview it with `npm run preview`.
 
 ## How it works
 
-There is no server: the two survey CSVs live in `public/data/` and are fetched at
+There is no server: the two survey CSVs live in `public/surveys/` and are fetched at
 runtime, parsed in the browser, and rendered entirely client-side.
 
 ```text
-public/data/*.csv  →  parseCSV (parseMpd / parseUkri)  →  useSurveyData  →  Dashboard
+public/surveys/*.csv  →  parseCSV (parseMpd / parseUkri)  →  useSurveyData  →  Dashboard
   (static assets)      (CSV text → SurveyReading[])       (fetch + state)    (charts / map / table)
 ```
 
@@ -112,8 +112,8 @@ readings, computed as the 90th percentile of the active metric.
 
 ## What I'd improve with more time
 
-- **Unit tests** — particularly for the CSV parsers (`data/parseCSV.ts`) and the
-  percentile/statistics logic (`data/stats.ts`), which are pure and easy to test.
+- **Unit tests** — particularly for the CSV parsers (`lib/parseCSV.ts`) and the
+  percentile/statistics logic (`lib/stats.ts`), which are pure and easy to test.
 - **Adjustable threshold** — let the user change the point-of-interest percentile
   instead of hardcoding 90% (some groundwork for a slider already exists).
 - **Data upload** — allow loading an arbitrary survey CSV rather than the bundled

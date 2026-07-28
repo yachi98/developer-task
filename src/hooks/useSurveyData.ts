@@ -19,7 +19,7 @@ export function useSurveyData(): SurveyData {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetches two CSV files from /public/data, parses them into SurveyReading[]
+  // Fetches two CSV files from /public/surveys, parses them into SurveyReading[]
   // using parseMpd/parseUkri, and returns the results with loading/error state.
   // Files are fetched in parallel; any failure sets an error message.
   useEffect(() => {
