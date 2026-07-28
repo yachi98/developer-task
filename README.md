@@ -1,75 +1,126 @@
-# React + TypeScript + Vite
+# A602 Road Survey Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small web application that visualises a **road-surface condition survey** of the
+A602 trial area. It reads two pavement-survey datasets — **MPD** (Mean Profile
+Depth, surface texture) and **UKRI** (UK Ride Index, ride quality) — and lets you
+switch between them, inspect summary statistics, explore the readings on line
+charts and an interactive map, sort them in a table, and flag the worst sections
+as "points of interest".
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Prerequisites
 
-## React Compiler
+- Node.js 20+
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+No API key or backend is required — the survey data ships with the app as static
+CSV files.
 
-## Expanding the ESLint configuration
+### Setup
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Install dependencies:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+   ```bash
+   npm install
+   ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+2. Start the dev server:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+   ```bash
+   npm run dev
+   ```
 
+3. Open [http://localhost:5173](http://localhost:5173).
+
+To produce a production build, run `npm run build` (type-checks with `tsc -b`
+then bundles with Vite) and preview it with `npm run preview`.
+
+## How it works
+
+There is no server: the two survey CSVs live in `public/data/` and are fetched at
+runtime, parsed in the browser, and rendered entirely client-side.
+
+```text
+public/data/*.csv  →  parseCSV (parseMpd / parseUkri)  →  useSurveyData  →  Dashboard
+  (static assets)      (CSV text → SurveyReading[])       (fetch + state)    (charts / map / table)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Two metrics are surveyed, each in its own CSV:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **MPD** — Mean Profile Depth (mm). A measure of surface **texture depth**.
+- **UKRI** — UK Ride Index (m/km). A measure of surface **irregularity / ride
+  quality**.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Each reading is keyed by `chainage` (distance along the route) and carries a
+GPS coordinate, so the same data drives both the charts (value vs. chainage) and
+the map (value at a location). "Points of interest" are the top 10% highest
+readings, computed as the 90th percentile of the active metric.
 
-```
+---
+
+## Assumptions
+
+- The survey data is a fixed sample for the A602 trial area, so it is bundled
+  with the app rather than fetched from a live source; swapping metrics never
+  hits the network.
+- "Points of interest" is interpreted as the **top 10% highest readings** (90th
+  percentile) of whichever metric is active — the sections most likely to need
+  attention.
+- Only points of interest get their own map marker (the full route is drawn as a
+  single polyline), since rendering a marker per reading would be needlessly
+  heavy for little added insight.
+- MPD and UKRI are surveyed independently, so their reading counts and sections
+  differ; each metric is summarised on its own.
+
+---
+
+## Features
+
+- **Metric toggle** — switch the whole dashboard between MPD and UKRI.
+- **Summary stat cards** — reading count, average, peak, and number of points of
+  interest for the active metric.
+- **Line charts** — both metrics plotted against chainage, with the
+  point-of-interest threshold drawn in and high readings emphasised.
+- **Interactive map** — a Leaflet route polyline with a marker for each point of
+  interest; click a marker to select that section.
+- **Sortable data table** — click a header to sort ascending/descending; row
+  selection stays in sync with the map.
+- **Points of interest highlighting** — the worst 10% of readings are flagged in
+  the table, on the map, and on the charts.
+- **Loading and error states** for the data load.
+- **Dark "glass" theme** — a navy + cyan glassmorphism palette driven by CSS
+  custom properties.
+- **Responsive** layout; the table scrolls horizontally on small screens.
+
+---
+
+## Tech choices
+
+- Build tool: **Vite 8** — Fast dev server and build; raw CSV is served as a
+  static asset and fetched at runtime.
+- Framework: **React 19** — Component-driven UI with hooks.
+- Language: **TypeScript** — Type safety across the data layer, hooks and
+  components.
+- Charts: **Chart.js** — Lightweight line charts with
+  good control over the threshold line and point styling.
+- Map: **Leaflet** — Simple, reliable slippy map for the
+  route and point-of-interest markers.
+- Styling: **SCSS** — One stylesheet per component, with a shared palette and
+  glass surface defined as CSS custom properties in `index.css`.
+
+---
+
+## What I'd improve with more time
+
+- **Unit tests** — particularly for the CSV parsers (`data/parseCSV.ts`) and the
+  percentile/statistics logic (`data/stats.ts`), which are pure and easy to test.
+- **Adjustable threshold** — let the user change the point-of-interest percentile
+  instead of hardcoding 90% (some groundwork for a slider already exists).
+- **Data upload** — allow loading an arbitrary survey CSV rather than the bundled
+  A602 sample.
+- **Route heatmap** — colour the map route by reading value, not just mark the
+  outliers.
+- **Bundle splitting** — the map and chart libraries push the bundle over 500 kB;
+  code-splitting them would improve first load.
+- **Accessibility** — a fuller keyboard/screen-reader audit of the table, toggle
+  and map controls.
