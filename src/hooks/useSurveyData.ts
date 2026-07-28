@@ -13,6 +13,17 @@ interface SurveyData {
   error: string | null;
 }
 
+// A failed fetch (e.g. a renamed/missing file) still resolves — the server
+// returns a 404 HTML page with a 200-less status. Without this check the HTML
+// body would flow into the CSV parser as garbage; instead we surface an error.
+async function fetchCsv(url: string): Promise<string> {
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`Failed to load ${url} (HTTP ${res.status})`);
+  }
+  return res.text();
+}
+
 export function useSurveyData(): SurveyData {
   const [mpd, setMpd] = useState<SurveyReading[]>([]);
   const [ukri, setUkri] = useState<SurveyReading[]>([]);
@@ -26,8 +37,8 @@ export function useSurveyData(): SurveyData {
     async function load() {
       try {
         const [mpdText, ukriText] = await Promise.all([
-          fetch(MPD_FILE).then((r) => r.text()),
-          fetch(UKRI_FILE).then((r) => r.text()),
+          fetchCsv(MPD_FILE),
+          fetchCsv(UKRI_FILE),
         ]);
 
         setMpd(parseMpd(mpdText));
