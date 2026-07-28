@@ -91,7 +91,14 @@ function ComparisonChartImpl({
     });
 
     return { datasets: series };
-  }, [mpd, ukri, mpdSummary.threshold, ukriSummary.threshold, metric, selected]);
+  }, [
+    mpd,
+    ukri,
+    mpdSummary.threshold,
+    ukriSummary.threshold,
+    metric,
+    selected,
+  ]);
 
   const options = useMemo<ChartOptions<"line">>(() => {
     // Dataset 0 = MPD, 1 = UKRI (matches the order built above).
@@ -183,7 +190,12 @@ function ComparisonChartImpl({
 
   return (
     <div className="comparison-chart">
-      <Line ref={chartRef} data={data} options={options} />
+      <Line
+        ref={chartRef}
+        data={data}
+        options={options}
+        aria-label={`Line chart of MPD and UKRI readings against chainage. The ${METRIC_META[metric].label} data is also listed in the readings table.`}
+      />
     </div>
   );
 }
