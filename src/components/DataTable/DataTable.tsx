@@ -4,7 +4,7 @@ import { METRIC_META } from "../../data/types";
 import type { Summary } from "../../data/stats";
 import "./DataTable.scss";
 
-interface Props {
+interface DataTableProps {
   readings: SurveyReading[];
   summary: Summary;
   selectedSection: number | null;
@@ -18,7 +18,7 @@ function DataTableImpl({
   summary,
   selectedSection,
   onSelect,
-}: Props) {
+}: DataTableProps) {
   const meta = METRIC_META[readings[0]?.metric ?? "MPD"];
   const [sortKey, setSortKey] = useState<SortKey>("section");
   const [desc, setDesc] = useState(false);
@@ -34,7 +34,7 @@ function DataTableImpl({
     selectedRef.current?.scrollIntoView({ block: "nearest" });
   }, [selectedSection]);
 
-  const setSort = (key: SortKey) => {
+  const handleSort = (key: SortKey) => {
     if (key === sortKey) setDesc((d) => !d);
     else {
       setSortKey(key);
@@ -52,15 +52,15 @@ function DataTableImpl({
       <table className="data-table">
         <thead>
           <tr>
-            <th onClick={() => setSort("section")}>
+            <th onClick={() => handleSort("section")}>
               Section{arrow("section")}
             </th>
 
-            <th onClick={() => setSort("chainage")}>
+            <th onClick={() => handleSort("chainage")}>
               Chainage (m){arrow("chainage")}
             </th>
 
-            <th onClick={() => setSort("value")}>
+            <th onClick={() => handleSort("value")}>
               {meta.label} ({meta.unit}){arrow("value")}
             </th>
 
@@ -69,30 +69,30 @@ function DataTableImpl({
           </tr>
         </thead>
         <tbody>
-          {sortedReadings.map((r) => {
-            const isHigh = r.value >= summary.threshold;
-            const isSelected = r.section === selectedSection;
+          {sortedReadings.map((reading) => {
+            const isHigh = reading.value >= summary.threshold;
+            const isSelected = reading.section === selectedSection;
             return (
               <tr
-                key={r.section}
+                key={reading.section}
                 ref={isSelected ? selectedRef : null}
                 className={`${isHigh ? "row-high" : ""} ${
                   isSelected ? "row-selected" : ""
                 }`}
-                onClick={() => onSelect(isSelected ? null : r.section)}
+                onClick={() => onSelect(isSelected ? null : reading.section)}
               >
-                <td className="num">{r.section}</td>
+                <td className="num">{reading.section}</td>
                 <td className="num">
-                  {r.start}–{r.end}
+                  {reading.start}–{reading.end}
                 </td>
                 <td className={isHigh ? "accent-warn" : "accent"}>
-                  {r.value.toFixed(2)}
+                  {reading.value.toFixed(2)}
                   {isHigh && (
                     <span className="poi-dot" title="Point of interest" />
                   )}
                 </td>
-                <td className="num">{r.latitude.toFixed(6)}</td>
-                <td className="num">{r.longitude.toFixed(6)}</td>
+                <td className="num">{reading.latitude.toFixed(6)}</td>
+                <td className="num">{reading.longitude.toFixed(6)}</td>
               </tr>
             );
           })}

@@ -3,9 +3,7 @@ import "./Panel.scss";
 
 interface PanelProps {
   title: string;
-  /** Optional pill shown on the right of the header (e.g. a count). */
   tag?: string;
-  /** Remove body padding — used for flush content like maps and tables. */
   noPad?: boolean;
   children: ReactNode;
 }

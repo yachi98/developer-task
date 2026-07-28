@@ -4,40 +4,6 @@
   padding: 40px 24px 64px;
 }
 
-/* ---- Header / branding ---- */
-/* .dashboard__header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 15px;
-}
-
-.dashboard__logo {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--cyan-400), var(--primary-bright));
-  box-shadow: 0 0 24px var(--cyan-glow);
-  color: hsl(222 47% 11%);
-  font-weight: 800;
-  font-size: 18px;
-  letter-spacing: -0.5px;
-}
-
-.dashboard__title {
-  margin: 0;
-  font-size: 28px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  color: hsl(var(--foreground));
-}
-
-.dashboard__title span {
-  color: var(--primary-bright);
-} */
-
 .dashboard__subtitle {
   margin: 4px 0 32px;
   color: hsl(var(--muted-foreground));

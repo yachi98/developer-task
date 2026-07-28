@@ -1,14 +1,14 @@
 import { useCallback, useMemo, useState } from "react";
 import { useSurveyData } from "../../hooks/useSurveyData";
-import { summarise } from "../../data/stats";
+import { calculateMetricStats } from "../../data/stats";
 import type { Metric } from "../../data/types";
 import { METRIC_META } from "../../data/types";
 import { METRIC_COLORS } from "../../theme";
-import { MethodCharts } from "../MethodCharts/MethodCharts";
+import { MetricCharts } from "../MetricCharts/MetricCharts";
 import { SurveyMap } from "../SurveyMap/SurveyMap";
 import { DataTable } from "../DataTable/DataTable";
 import { StatsGrid } from "../StatsGrid/StatsGrid";
-import { MethodControls } from "../MethodControls/MethodControls";
+import { MetricControls } from "../MetricControls/MetricControls";
 import { Header } from "../Header/Header";
 import { Panel } from "../Panel/Panel";
 import "./Dashboard.scss";
@@ -22,8 +22,14 @@ export function Dashboard() {
   const [selected, setSelected] = useState<number | null>(null);
 
   // Flag the top 10% highest readings as "points of interest".
-  const mpdSummary = useMemo(() => summarise(mpd, HIGHLIGHT_PCT), [mpd]);
-  const ukriSummary = useMemo(() => summarise(ukri, HIGHLIGHT_PCT), [ukri]);
+  const mpdSummary = useMemo(
+    () => calculateMetricStats(mpd, HIGHLIGHT_PCT),
+    [mpd],
+  );
+  const ukriSummary = useMemo(
+    () => calculateMetricStats(ukri, HIGHLIGHT_PCT),
+    [ukri],
+  );
 
   // Stable handlers so the memoised chart/map/table skip needless re-renders.
   const handleSelect = useCallback((s: number | null) => setSelected(s), []);
@@ -36,11 +42,11 @@ export function Dashboard() {
     setSelected(s);
   }, []);
 
-  const active = metric === "MPD" ? mpd : ukri;
+  const activeMetric = metric === "MPD" ? mpd : ukri;
   const activeSummary = metric === "MPD" ? mpdSummary : ukriSummary;
   const meta = METRIC_META[metric];
 
-  const poiCount = active.filter(
+  const poiCount = activeMetric.filter(
     (r) => r.value >= activeSummary.threshold,
   ).length;
 
@@ -90,20 +96,15 @@ export function Dashboard() {
   return (
     <div className="dashboard">
       <Header />
-
-      {/* Controls */}
-      <MethodControls
+      <MetricControls
         metric={metric}
         setMetric={setMetric}
         setSelected={setSelected}
         meta={meta}
         activeSummary={activeSummary}
       />
-
       <StatsGrid items={statItems} />
-
-      {/* Charts — both methods always visible */}
-      <MethodCharts
+      <MetricCharts
         mpd={mpd}
         mpdSummary={mpdSummary}
         ukri={ukri}
@@ -113,8 +114,6 @@ export function Dashboard() {
         selectMpd={selectMpd}
         selectUkri={selectUkri}
       />
-
-      {/* Map + table for the active method */}
       <div className="grid-2 grid-2--map">
         <Panel
           title={`Route map · ${meta.label}  A602 Trial Area`}
@@ -122,7 +121,7 @@ export function Dashboard() {
           noPad
         >
           <SurveyMap
-            readings={active}
+            readings={activeMetric}
             summary={activeSummary}
             color={METRIC_COLORS[metric]}
             selectedSection={selected}
@@ -131,11 +130,11 @@ export function Dashboard() {
         </Panel>
         <Panel
           title={`${meta.label} readings`}
-          tag={`${active.length} rows`}
+          tag={`${activeMetric.length} rows`}
           noPad
         >
           <DataTable
-            readings={active}
+            readings={activeMetric}
             summary={activeSummary}
             selectedSection={selected}
             onSelect={handleSelect}

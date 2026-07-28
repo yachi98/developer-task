@@ -16,7 +16,7 @@ import type { SurveyReading } from "../../data/types";
 import { METRIC_META } from "../../data/types";
 import type { Summary } from "../../data/stats";
 import { POI_COLOR, SELECTED_COLOR } from "../../theme";
-import "./MethodChart.scss";
+import "./LineChart.scss";
 
 ChartJS.register(
   LinearScale,
@@ -27,7 +27,7 @@ ChartJS.register(
   Tooltip,
 );
 
-interface Props {
+interface LineChartProps {
   readings: SurveyReading[];
   summary: Summary;
   color: string;
@@ -35,13 +35,13 @@ interface Props {
   onSelect: (section: number | null) => void;
 }
 
-function MethodChartImpl({
+function LineChartImpl({
   readings,
   summary,
   color,
   selectedSection,
   onSelect,
-}: Props) {
+}: LineChartProps) {
   const meta = METRIC_META[readings[0]?.metric ?? "MPD"];
   const chartRef = useRef<Chart<"line"> | null>(null);
 
@@ -117,14 +117,14 @@ function MethodChartImpl({
       parsing: false,
       normalized: true,
       interaction: { mode: "nearest", axis: "x", intersect: false },
-      onClick: (_evt, _els, chart) => {
-        const items = chart.getActiveElements();
-        if (!items.length) return onSelect(null);
-        // index into the readings dataset (dataset 1)
-        const hit = items.find((i) => i.datasetIndex === 1) ?? items[0];
-        const r = readings[hit.index];
-        onSelect(r ? r.section : null);
+      onClick: (_event, _elements, chart) => {
+        const activePoint = chart
+          .getActiveElements()
+          .find((i) => i.datasetIndex === 1);
+        if (!activePoint) return onSelect(null);
+        onSelect(readings[activePoint.index]?.section ?? null);
       },
+
       scales: {
         x: {
           type: "linear",
@@ -151,13 +151,13 @@ function MethodChartImpl({
           padding: 10,
           callbacks: {
             title: (items) => {
-              const r = readings[items[0].dataIndex];
-              return r ? `Section ${r.section}` : "";
+              const reading = readings[items[0].dataIndex];
+              return reading ? `Section ${reading.section}` : "";
             },
             label: (item) => {
-              const r = readings[item.dataIndex];
-              return r
-                ? `${r.value.toFixed(2)} ${meta.unit}  ·  ${r.chainage.toFixed(0)} m`
+              const reading = readings[item.dataIndex];
+              return reading
+                ? `${reading.value.toFixed(2)} ${meta.unit}  ·  ${reading.chainage.toFixed(0)} m`
                 : "";
             },
           },
@@ -174,4 +174,4 @@ function MethodChartImpl({
   );
 }
 
-export const MethodChart = memo(MethodChartImpl);
+export const LineChart = memo(LineChartImpl);

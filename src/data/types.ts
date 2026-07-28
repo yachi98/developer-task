@@ -1,7 +1,7 @@
-export type Method = "MPD" | "UKRI";
+export type Metric = "MPD" | "UKRI";
 
 export interface SurveyReading {
-  method: Method;
+  metric: Metric;
   section: number;
   start: number;
   end: number;
@@ -11,10 +11,13 @@ export interface SurveyReading {
   longitude: number;
 }
 
-export const METHOD_META: Record<
-  Method,
-  { label: string; unit: string; description: string }
-> = {
+export interface MetricMeta {
+  label: string;
+  unit: string;
+  description: string;
+}
+
+export const METRIC_META: Record<Metric, MetricMeta> = {
   MPD: {
     label: "MPD",
     unit: "mm",

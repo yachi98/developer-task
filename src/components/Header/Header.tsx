@@ -10,7 +10,6 @@ export function Header() {
         width="20"
         height="20"
       />
-
       <div>
         <h1 className="dashboard__title">
           Highway <span>Survey Dashboard</span>

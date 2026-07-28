@@ -1,12 +1,10 @@
 import "./StatCard.scss";
 
-interface StatCardProps {
+export interface StatCardProps {
   label: string;
   value: number | string;
   unit?: string;
-  /** Tint the value with `color` and add a glow. */
   accent?: boolean;
-  /** Style the value as a warning (points of interest). */
   warn?: boolean;
   color?: string;
 }
