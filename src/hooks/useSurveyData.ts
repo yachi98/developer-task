@@ -19,6 +19,9 @@ export function useSurveyData(): SurveyData {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Fetches two CSV files from /public/data, parses them into SurveyReading[]
+  // using parseMpd/parseUkri, and returns the results with loading/error state.
+  // Files are fetched in parallel; any failure sets an error message.
   useEffect(() => {
     async function load() {
       try {
@@ -26,6 +29,7 @@ export function useSurveyData(): SurveyData {
           fetch(MPD_FILE).then((r) => r.text()),
           fetch(UKRI_FILE).then((r) => r.text()),
         ]);
+
         setMpd(parseMpd(mpdText));
         setUkri(parseUkri(ukriText));
       } catch (e) {
@@ -34,6 +38,7 @@ export function useSurveyData(): SurveyData {
         setLoading(false);
       }
     }
+
     load();
   }, []);
 
