@@ -11,13 +11,19 @@
     place-items: center;
     width: 44px;
     height: 44px;
+    padding: 6px;
+    box-sizing: border-box;
     border-radius: 12px;
-    background: linear-gradient(135deg, var(--cyan-400), var(--primary-bright));
-    box-shadow: 0 0 24px var(--cyan-glow);
-    color: hsl(222 47% 11%);
-    font-weight: 800;
-    font-size: 18px;
-    letter-spacing: -0.5px;
+    background: var(--cyan-glow);
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      // Recolour the monochrome SVG to solid white
+      filter: brightness(0) invert(1);
+    }
   }
 
   &__title {
