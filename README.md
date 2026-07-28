@@ -112,8 +112,9 @@ readings, computed as the 90th percentile of the active metric.
 
 ## What I'd improve with more time
 
-- **Unit tests** — particularly for the CSV parsers (`lib/parseCSV.ts`) and the
-  percentile/statistics logic (`lib/stats.ts`), which are pure and easy to test.
+- **More features** — I would add more features such as search input component to search values, pagination component so it displays
+  10
+  per page which would be more efficient.
 - **Adjustable threshold** — let the user change the point-of-interest percentile
   instead of hardcoding 90% (some groundwork for a slider already exists).
 - **Data upload** — allow loading an arbitrary survey CSV rather than the bundled
@@ -124,3 +125,11 @@ readings, computed as the 90th percentile of the active metric.
   code-splitting them would improve first load.
 - **Accessibility** — a fuller keyboard/screen-reader audit of the table, toggle
   and map controls.
+- **Broader test coverage** — the current tests cover the pure logic (CSV
+  parsing and statistics); with more time I'd add component/interaction tests
+  for the table sorting, metric toggle and selection syncing between chart, map and table.
+- **Resilient data loading** — an error boundary so a render failure in the
+  chart or map degrades gracefully instead of blanking the page, plus a retry
+  action on the existing error state.
+- **CI pipeline** — run lint, type-check, tests and build on every push so
+  regressions are caught automatically.
