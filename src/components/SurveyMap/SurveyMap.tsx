@@ -16,7 +16,7 @@ import { POI_COLOR, SELECTED_COLOR } from "../../theme";
 import "leaflet/dist/leaflet.css";
 import "./SurveyMap.scss";
 
-interface Props {
+interface SurveyMapProps {
   readings: SurveyReading[];
   summary: Summary;
   color: string;
@@ -24,6 +24,7 @@ interface Props {
   onSelect: (section: number | null) => void;
 }
 
+// zoom/position the map so all points are visible
 function FitBounds({ bounds }: { bounds: LatLngBoundsExpression | null }) {
   const map = useMap();
   useEffect(() => {
@@ -32,6 +33,7 @@ function FitBounds({ bounds }: { bounds: LatLngBoundsExpression | null }) {
   return null;
 }
 
+// smoothly move the map to the selected reading
 function PanToSelected({ reading }: { reading: SurveyReading | undefined }) {
   const map = useMap();
   useEffect(() => {
@@ -48,7 +50,7 @@ function SurveyMapImpl({
   color,
   selectedSection,
   onSelect,
-}: Props) {
+}: SurveyMapProps) {
   const meta = METRIC_META[readings[0]?.metric ?? "MPD"];
 
   const valid = useMemo(
@@ -103,28 +105,34 @@ function SurveyMapImpl({
         pathOptions={{ color, weight: 4, opacity: 0.8 }}
       />
 
-      {highlights.map((r) => (
+      {highlights.map((highlight) => (
         <CircleMarker
-          key={r.section}
-          center={[r.latitude, r.longitude]}
-          radius={r.section === selectedSection ? 9 : 6}
+          key={highlight.section}
+          center={[highlight.latitude, highlight.longitude]}
+          radius={highlight.section === selectedSection ? 9 : 6}
           pathOptions={{
-            color: r.section === selectedSection ? SELECTED_COLOR : POI_COLOR,
-            fillColor: r.section === selectedSection ? SELECTED_COLOR : POI_COLOR,
+            color:
+              highlight.section === selectedSection
+                ? SELECTED_COLOR
+                : POI_COLOR,
+            fillColor:
+              highlight.section === selectedSection
+                ? SELECTED_COLOR
+                : POI_COLOR,
             fillOpacity: 0.9,
-            weight: r.section === selectedSection ? 3 : 1,
+            weight: highlight.section === selectedSection ? 3 : 1,
           }}
-          eventHandlers={{ click: () => onSelect(r.section) }}
+          eventHandlers={{ click: () => onSelect(highlight.section) }}
         >
           <LeafletTooltip>
-            §{r.section} · {r.value.toFixed(2)} {meta.unit}
+            §{highlight.section} · {highlight.value.toFixed(2)} {meta.unit}
           </LeafletTooltip>
           <Popup>
-            <strong>Section {r.section}</strong>
+            <strong>Section {highlight.section}</strong>
             <br />
-            Chainage {r.start}–{r.end} m
+            Chainage {highlight.start}–{highlight.end} m
             <br />
-            {meta.label}: {r.value.toFixed(2)} {meta.unit}
+            {meta.label}: {highlight.value.toFixed(2)} {meta.unit}
             <br />
             <span style={{ color: POI_COLOR }}>⚠ Point of interest</span>
           </Popup>

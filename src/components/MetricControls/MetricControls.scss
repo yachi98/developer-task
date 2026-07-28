@@ -1,4 +1,3 @@
-/* ---- Controls (method toggle + legend) ---- */
 .controls {
   display: flex;
   flex-wrap: wrap;
@@ -15,6 +14,7 @@
 }
 
 .method-btn {
+  --metric-color: var(--cyan-soft); /* fallback */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -31,22 +31,25 @@
   transition: all 0.15s ease;
 
   &:hover {
-    border-color: var(--cyan-soft);
+    border-color: var(--metric-color);
+    color: var(--metric-color);
   }
 
   &.is-active {
+    border-color: var(--metric-color);
+    color: var(--metric-color);
     background: rgba(255, 255, 255, 0.06);
-    box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+    box-shadow: 0 0 20px
+      color-mix(in srgb, var(--metric-color) 40%, transparent);
   }
 }
 
 .method-dot {
-  display: inline-block;
   width: 8px;
   height: 8px;
   border-radius: 50%;
+  background: var(--metric-color);
   margin-right: 6px;
-  vertical-align: middle;
 }
 
 .method-sub {
@@ -55,6 +58,11 @@
   text-transform: none;
   letter-spacing: 0;
   color: hsl(var(--muted-foreground));
+}
+
+.method-container {
+  display: flex;
+  align-items: center;
 }
 
 .legend {

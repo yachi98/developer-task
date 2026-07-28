@@ -1,4 +1,3 @@
-import type { Dispatch, SetStateAction } from "react";
 import { METRIC_META } from "../../data/types";
 import { METRIC_COLORS } from "../../theme";
 import type { Metric, MetricMeta } from "../../data/types";
@@ -7,8 +6,8 @@ import "./MetricControls.scss";
 
 interface MetricControlsProps {
   metric: Metric;
-  setMetric: Dispatch<SetStateAction<Metric>>;
-  setSelected: Dispatch<SetStateAction<number | null>>;
+  setMetric: (metric: Metric) => void;
+  setSelected: (section: number | null) => void;
   meta: MetricMeta;
   activeSummary: Summary;
 }
@@ -30,20 +29,17 @@ export function MetricControls({
             aria-selected={metric === m}
             className={`method-btn ${metric === m ? "is-active" : ""}`}
             style={
-              metric === m
-                ? { borderColor: METRIC_COLORS[m], color: METRIC_COLORS[m] }
-                : undefined
+              { "--metric-color": METRIC_COLORS[m] } as React.CSSProperties
             }
             onClick={() => {
               setMetric(m);
               setSelected(null);
             }}
           >
-            <span
-              className="method-dot"
-              style={{ background: METRIC_COLORS[m] }}
-            />
-            {METRIC_META[m].label}
+            <div className="method-container">
+              <span className="method-dot"></span>
+              {METRIC_META[m].label}{" "}
+            </div>
             <span className="method-sub">{METRIC_META[m].description}</span>
           </button>
         ))}
