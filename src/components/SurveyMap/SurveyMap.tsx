@@ -92,6 +92,7 @@ function SurveyMapImpl({
       zoom={15}
       scrollWheelZoom
       preferCanvas
+      aria-label={`Map of the survey route with ${meta.label} points of interest marked. The same readings are available in the readings table.`}
     >
       <TileLayer
         url="https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
