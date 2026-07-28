@@ -8,12 +8,12 @@
   margin-bottom: 24px;
 }
 
-.method-toggle {
+.metric-toggle {
   display: flex;
   gap: 10px;
 }
 
-.method-btn {
+.metric-btn {
   --metric-color: var(--cyan-soft); /* fallback */
   display: flex;
   flex-direction: column;
@@ -44,7 +44,7 @@
   }
 }
 
-.method-dot {
+.metric-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -52,7 +52,7 @@
   margin-right: 6px;
 }
 
-.method-sub {
+.metric-sub {
   font-size: 11px;
   font-weight: 400;
   text-transform: none;
@@ -60,7 +60,7 @@
   color: hsl(var(--muted-foreground));
 }
 
-.method-container {
+.metric-container {
   display: flex;
   align-items: center;
 }

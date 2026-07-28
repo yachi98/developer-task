@@ -21,13 +21,13 @@ export function MetricControls({
 }: MetricControlsProps) {
   return (
     <div className="controls glass">
-      <div className="method-toggle" role="tablist">
+      <div className="metric-toggle" role="tablist">
         {(Object.keys(METRIC_META) as Metric[]).map((m) => (
           <button
             key={m}
             role="tab"
             aria-selected={metric === m}
-            className={`method-btn ${metric === m ? "is-active" : ""}`}
+            className={`metric-btn ${metric === m ? "is-active" : ""}`}
             style={
               { "--metric-color": METRIC_COLORS[m] } as React.CSSProperties
             }
@@ -36,11 +36,11 @@ export function MetricControls({
               setSelected(null);
             }}
           >
-            <div className="method-container">
-              <span className="method-dot"></span>
+            <div className="metric-container">
+              <span className="metric-dot"></span>
               {METRIC_META[m].label}{" "}
             </div>
-            <span className="method-sub">{METRIC_META[m].description}</span>
+            <span className="metric-sub">{METRIC_META[m].description}</span>
           </button>
         ))}
       </div>
