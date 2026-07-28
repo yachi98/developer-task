@@ -4,7 +4,7 @@ import { calculateMetricStats } from "../../data/stats";
 import type { Metric } from "../../data/types";
 import { METRIC_META } from "../../data/types";
 import { METRIC_COLORS } from "../../theme";
-import { MetricCharts } from "../MetricCharts/MetricCharts";
+import { ComparisonChart } from "../ComparisonChart/ComparisonChart";
 import { SurveyMap } from "../SurveyMap/SurveyMap";
 import { DataTable } from "../DataTable/DataTable";
 import { StatsGrid } from "../StatsGrid/StatsGrid";
@@ -31,16 +31,8 @@ export function Dashboard() {
     [ukri],
   );
 
-  // Stable handlers so the memoised chart/map/table skip needless re-renders.
+  // Stable handler so the memoised chart/map/table skip needless re-renders.
   const handleSelect = useCallback((s: number | null) => setSelected(s), []);
-  const selectMpd = useCallback((s: number | null) => {
-    setMetric("MPD");
-    setSelected(s);
-  }, []);
-  const selectUkri = useCallback((s: number | null) => {
-    setMetric("UKRI");
-    setSelected(s);
-  }, []);
 
   const activeMetric = metric === "MPD" ? mpd : ukri;
   const activeSummary = metric === "MPD" ? mpdSummary : ukriSummary;
@@ -104,16 +96,20 @@ export function Dashboard() {
         activeSummary={activeSummary}
       />
       <StatsGrid items={statItems} />
-      <MetricCharts
-        mpd={mpd}
-        mpdSummary={mpdSummary}
-        ukri={ukri}
-        ukriSummary={ukriSummary}
-        metric={metric}
-        selected={selected}
-        selectMpd={selectMpd}
-        selectUkri={selectUkri}
-      />
+      <Panel
+        title="MPD vs UKRI along the route"
+        tag={`${meta.label} focused`}
+      >
+        <ComparisonChart
+          mpd={mpd}
+          ukri={ukri}
+          mpdSummary={mpdSummary}
+          ukriSummary={ukriSummary}
+          metric={metric}
+          selected={selected}
+          onSelect={handleSelect}
+        />
+      </Panel>
       <div className="grid-2 grid-2--map">
         <Panel
           title={`Route map · ${meta.label}  A602 Trial Area`}
