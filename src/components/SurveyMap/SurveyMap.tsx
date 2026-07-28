@@ -20,8 +20,8 @@ interface SurveyMapProps {
   readings: SurveyReading[];
   summary: Summary;
   color: string;
-  selectedSection: number | null;
-  onSelect: (section: number | null) => void;
+  selectedId: string | null;
+  onSelect: (id: string | null) => void;
 }
 
 // zoom/position the map so all points are visible
@@ -48,7 +48,7 @@ function SurveyMapImpl({
   readings,
   summary,
   color,
-  selectedSection,
+  selectedId,
   onSelect,
 }: SurveyMapProps) {
   const meta = METRIC_META[readings[0]?.metric ?? "MPD"];
@@ -83,7 +83,7 @@ function SurveyMapImpl({
     [valid, summary.threshold],
   );
 
-  const selectedReading = valid.find((r) => r.section === selectedSection);
+  const selectedReading = valid.find((r) => r.id === selectedId);
 
   return (
     <MapContainer
@@ -108,22 +108,16 @@ function SurveyMapImpl({
 
       {highlights.map((highlight) => (
         <CircleMarker
-          key={highlight.section}
+          key={highlight.id}
           center={[highlight.latitude, highlight.longitude]}
-          radius={highlight.section === selectedSection ? 9 : 6}
+          radius={highlight.id === selectedId ? 9 : 6}
           pathOptions={{
-            color:
-              highlight.section === selectedSection
-                ? SELECTED_COLOR
-                : POI_COLOR,
-            fillColor:
-              highlight.section === selectedSection
-                ? SELECTED_COLOR
-                : POI_COLOR,
+            color: highlight.id === selectedId ? SELECTED_COLOR : POI_COLOR,
+            fillColor: highlight.id === selectedId ? SELECTED_COLOR : POI_COLOR,
             fillOpacity: 0.9,
-            weight: highlight.section === selectedSection ? 3 : 1,
+            weight: highlight.id === selectedId ? 3 : 1,
           }}
-          eventHandlers={{ click: () => onSelect(highlight.section) }}
+          eventHandlers={{ click: () => onSelect(highlight.id) }}
         >
           <LeafletTooltip>
             §{highlight.section} · {highlight.value.toFixed(2)} {meta.unit}

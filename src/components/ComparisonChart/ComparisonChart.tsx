@@ -24,10 +24,9 @@ interface ComparisonChartProps {
   ukri: SurveyReading[];
   mpdSummary: Summary;
   ukriSummary: Summary;
-  /** The active metric — its line is emphasised and drives click selection. */
   metric: Metric;
-  selected: number | null;
-  onSelect: (section: number | null) => void;
+  selected: string | null;
+  onSelect: (id: string | null) => void;
 }
 
 function ComparisonChartImpl({
@@ -72,14 +71,14 @@ function ComparisonChartImpl({
         tension: 0.3,
         fill: false,
         pointRadius: readings.map((r) =>
-          isActive && r.section === selected
+          isActive && r.id === selected
             ? 5
             : r.value >= threshold
               ? 3.5
               : 0,
         ),
         pointBackgroundColor: readings.map((r) =>
-          isActive && r.section === selected
+          isActive && r.id === selected
             ? SELECTED_COLOR
             : r.value >= threshold
               ? POI_COLOR
@@ -122,7 +121,7 @@ function ComparisonChartImpl({
           .getActiveElements()
           .find((el) => el.datasetIndex === activeDatasetIndex);
         if (!hit) return onSelect(null);
-        onSelect(readingsFor(activeDatasetIndex)[hit.index]?.section ?? null);
+        onSelect(readingsFor(activeDatasetIndex)[hit.index]?.id ?? null);
       },
       scales: {
         x: {

@@ -7,7 +7,7 @@ import "./MetricControls.scss";
 interface MetricControlsProps {
   metric: Metric;
   setMetric: (metric: Metric) => void;
-  setSelected: (section: number | null) => void;
+  setSelected: (id: string | null) => void;
   meta: MetricMeta;
   activeSummary: Summary;
 }

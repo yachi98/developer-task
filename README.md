@@ -113,8 +113,9 @@ readings, computed as the 90th percentile of the active metric.
 ## What I'd improve with more time
 
 - **More features** — I would add more features such as search input component to search values, pagination component so it displays
-  10
-  per page which would be more efficient.
+  10 per page which would be more efficient.
+- **Persistence** — I would add logic so if user refreshes the page the selected metric will be persisted.
+- **Local storage** — I would store the selected metric in local storage so it will be persisted even if user refreshes the page.
 - **Adjustable threshold** — let the user change the point-of-interest percentile
   instead of hardcoding 90% (some groundwork for a slider already exists).
 - **Data upload** — allow loading an arbitrary survey CSV rather than the bundled

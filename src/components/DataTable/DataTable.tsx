@@ -7,8 +7,8 @@ import "./DataTable.scss";
 interface DataTableProps {
   readings: SurveyReading[];
   summary: Summary;
-  selectedSection: number | null;
-  onSelect: (section: number | null) => void;
+  selectedId: string | null;
+  onSelect: (id: string | null) => void;
 }
 
 type SortKey = "section" | "chainage" | "value";
@@ -16,7 +16,7 @@ type SortKey = "section" | "chainage" | "value";
 function DataTableImpl({
   readings,
   summary,
-  selectedSection,
+  selectedId,
   onSelect,
 }: DataTableProps) {
   const meta = METRIC_META[readings[0]?.metric ?? "MPD"];
@@ -32,7 +32,7 @@ function DataTableImpl({
 
   useEffect(() => {
     selectedRef.current?.scrollIntoView({ block: "nearest" });
-  }, [selectedSection]);
+  }, [selectedId]);
 
   const handleSort = (key: SortKey) => {
     if (key === sortKey) setDesc((d) => !d);
@@ -72,15 +72,15 @@ function DataTableImpl({
         <tbody>
           {sortedReadings.map((reading) => {
             const isHigh = reading.value >= summary.threshold;
-            const isSelected = reading.section === selectedSection;
+            const isSelected = reading.id === selectedId;
             return (
               <tr
-                key={reading.section}
+                key={reading.id}
                 ref={isSelected ? selectedRef : null}
                 className={`${isHigh ? "row-high" : ""} ${
                   isSelected ? "row-selected" : ""
                 }`}
-                onClick={() => onSelect(isSelected ? null : reading.section)}
+                onClick={() => onSelect(isSelected ? null : reading.id)}
               >
                 <td className="num">{reading.section}</td>
                 <td className="num">

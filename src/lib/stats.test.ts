@@ -4,6 +4,7 @@ import { calculateMetricStats } from "./stats";
 
 // Test reading helper
 const reading = (value: number): SurveyReading => ({
+  id: "test",
   metric: "MPD",
   section: 0,
   start: 0,

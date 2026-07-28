@@ -19,7 +19,7 @@ const HIGHLIGHT_PCT = 90;
 export function Dashboard() {
   const { mpd, ukri, loading, error } = useSurveyData();
   const [metric, setMetric] = useState<Metric>("MPD");
-  const [selected, setSelected] = useState<number | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
 
   // Flag the top 10% highest readings as "points of interest".
   const mpdSummary = useMemo(
@@ -32,7 +32,7 @@ export function Dashboard() {
   );
 
   // Stable handler so the memoised chart/map/table skip needless re-renders.
-  const handleSelect = useCallback((s: number | null) => setSelected(s), []);
+  const handleSelect = useCallback((s: string | null) => setSelected(s), []);
 
   const activeMetric = metric === "MPD" ? mpd : ukri;
   const activeSummary = metric === "MPD" ? mpdSummary : ukriSummary;
@@ -117,7 +117,7 @@ export function Dashboard() {
             readings={activeMetric}
             summary={activeSummary}
             color={METRIC_COLORS[metric]}
-            selectedSection={selected}
+            selectedId={selected}
             onSelect={handleSelect}
           />
         </Panel>
@@ -129,7 +129,7 @@ export function Dashboard() {
           <DataTable
             readings={activeMetric}
             summary={activeSummary}
-            selectedSection={selected}
+            selectedId={selected}
             onSelect={handleSelect}
           />
         </Panel>

@@ -1,6 +1,9 @@
 export type Metric = "MPD" | "UKRI";
 
 export interface SurveyReading {
+  /** Unique id for this reading (e.g. "UKRI-42"). `section` repeats across
+   *  tracks, so this is what identifies a single row for selection. */
+  id: string;
   metric: Metric;
   section: number;
   start: number;

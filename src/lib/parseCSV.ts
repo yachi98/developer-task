@@ -20,13 +20,14 @@ function splitLines(text: string): string[] {
  * GPS is a single field like "51.9409 N 0.2744 W".
  */
 export function parseUkri(text: string): SurveyReading[] {
-  return splitLines(text).map((line) => {
+  return splitLines(text).map((line, index) => {
     const parts = line.split(",");
     const start = Number(parts[2]);
     const end = Number(parts[3]);
     const [lat, latDir, lon, lonDir] = parts[5].trim().split(/\s+/);
 
     return {
+      id: `UKRI-${index}`,
       metric: "UKRI",
       section: Number(parts[1]),
       start,
@@ -44,11 +45,12 @@ export function parseUkri(text: string): SurveyReading[] {
  * Station is a range like "0.0 to 10.0"; lat/lon are separate fields.
  */
 export function parseMpd(text: string): SurveyReading[] {
-  return splitLines(text).map((line) => {
+  return splitLines(text).map((line, index) => {
     const parts = line.split(",");
     const [start, end] = parts[1].split(/\s*to\s*/).map(Number);
 
     return {
+      id: `MPD-${index}`,
       metric: "MPD",
       section: Number(parts[0]),
       start,

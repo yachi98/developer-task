@@ -14,6 +14,7 @@ it("parseMpd turns a CSV row into a reading object", () => {
   const rows = parseMpd(MPD_CSV);
   expect(rows).toHaveLength(1);
   expect(rows[0]).toEqual({
+    id: "MPD-0", // first data row -> `${metric}-${index}`
     metric: "MPD",
     section: 1,
     start: 0,
@@ -32,6 +33,7 @@ it("parseUkri turns a CSV row into a reading object", () => {
   const rows = parseUkri(UKRI_CSV);
   expect(rows).toHaveLength(1);
   expect(rows[0]).toEqual({
+    id: "UKRI-0", // first data row -> `${metric}-${index}`
     metric: "UKRI",
     section: 2,
     start: 0,
