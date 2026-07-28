@@ -47,22 +47,23 @@ function DataTableImpl({
     return desc ? " ▾" : " ▴";
   };
 
+  const sortableCols: { key: SortKey; label: string }[] = [
+    { key: "section", label: "Section" },
+    { key: "chainage", label: "Chainage (m)" },
+    { key: "value", label: `${meta.label} (${meta.unit})` },
+  ];
+
   return (
     <div className="table-scroll">
       <table className="data-table">
         <thead>
           <tr>
-            <th onClick={() => handleSort("section")}>
-              Section{arrow("section")}
-            </th>
-
-            <th onClick={() => handleSort("chainage")}>
-              Chainage (m){arrow("chainage")}
-            </th>
-
-            <th onClick={() => handleSort("value")}>
-              {meta.label} ({meta.unit}){arrow("value")}
-            </th>
+            {sortableCols.map((col) => (
+              <th key={col.key} onClick={() => handleSort(col.key)}>
+                {col.label}
+                {arrow(col.key)}
+              </th>
+            ))}
 
             <th>Latitude</th>
             <th>Longitude</th>
