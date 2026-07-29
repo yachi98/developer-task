@@ -25,7 +25,7 @@ interface SurveyMapProps {
 }
 
 // zoom/position the map so all points are visible
-function FitBounds({ bounds }: { bounds: LatLngBoundsExpression | null }) {
+function FitMapToBounds({ bounds }: { bounds: LatLngBoundsExpression | null }) {
   const map = useMap();
   useEffect(() => {
     if (bounds) map.fitBounds(bounds, { padding: [24, 24] });
@@ -34,7 +34,7 @@ function FitBounds({ bounds }: { bounds: LatLngBoundsExpression | null }) {
 }
 
 // smoothly move the map to the selected reading
-function PanToSelected({ reading }: { reading: SurveyReading | undefined }) {
+function PanMapToReading({ reading }: { reading: SurveyReading | undefined }) {
   const map = useMap();
   useEffect(() => {
     if (reading) {
@@ -44,7 +44,7 @@ function PanToSelected({ reading }: { reading: SurveyReading | undefined }) {
   return null;
 }
 
-function SurveyMapImpl({
+function SurveyMapView({
   readings,
   summary,
   color,
@@ -98,8 +98,8 @@ function SurveyMapImpl({
         url="https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
       />
-      <FitBounds bounds={bounds} />
-      <PanToSelected reading={selectedReading} />
+      <FitMapToBounds bounds={bounds} />
+      <PanMapToReading reading={selectedReading} />
 
       <Polyline
         positions={route}
@@ -157,4 +157,4 @@ function SurveyMapImpl({
   );
 }
 
-export const SurveyMap = memo(SurveyMapImpl);
+export const SurveyMap = memo(SurveyMapView);

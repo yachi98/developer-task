@@ -71,11 +71,7 @@ function ComparisonChartImpl({
         tension: 0.3,
         fill: false,
         pointRadius: readings.map((r) =>
-          isActive && r.id === selected
-            ? 5
-            : r.value >= threshold
-              ? 3.5
-              : 0,
+          isActive && r.id === selected ? 5 : r.value >= threshold ? 3.5 : 0,
         ),
         pointBackgroundColor: readings.map((r) =>
           isActive && r.id === selected
@@ -176,9 +172,9 @@ function ComparisonChartImpl({
             label: (item) => {
               const { datasetIndex, dataIndex } = item;
               const reading = readingsFor(datasetIndex)[dataIndex];
-              const m = metaFor(datasetIndex);
+              const meta = metaFor(datasetIndex);
               return reading
-                ? `${m.label}: ${reading.value.toFixed(2)} ${m.unit}  ·  ${reading.chainage.toFixed(0)} m`
+                ? `${meta.label}: ${reading.value.toFixed(2)} ${meta.unit}  ·  ${reading.chainage.toFixed(0)} m`
                 : "";
             },
           },

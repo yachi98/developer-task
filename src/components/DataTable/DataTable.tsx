@@ -64,20 +64,19 @@ function DataTableImpl({
                 {arrow(col.key)}
               </th>
             ))}
-
             <th>Latitude</th>
             <th>Longitude</th>
           </tr>
         </thead>
         <tbody>
           {sortedReadings.map((reading) => {
-            const isHigh = reading.value >= summary.threshold;
+            const isPointOfInterest = reading.value >= summary.threshold;
             const isSelected = reading.id === selectedId;
             return (
               <tr
                 key={reading.id}
                 ref={isSelected ? selectedRef : null}
-                className={`${isHigh ? "row-high" : ""} ${
+                className={`${isPointOfInterest ? "row-high" : ""} ${
                   isSelected ? "row-selected" : ""
                 }`}
                 onClick={() => onSelect(isSelected ? null : reading.id)}
@@ -86,9 +85,9 @@ function DataTableImpl({
                 <td className="num">
                   {reading.start}–{reading.end}
                 </td>
-                <td className={isHigh ? "accent-warn" : "accent"}>
+                <td className={isPointOfInterest ? "accent-warn" : "accent"}>
                   {reading.value.toFixed(2)}
-                  {isHigh && (
+                  {isPointOfInterest && (
                     <span className="poi-dot" title="Point of interest" />
                   )}
                 </td>

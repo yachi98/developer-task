@@ -21,7 +21,6 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      // Recolour the monochrome SVG to solid white
       filter: brightness(0) invert(1);
     }
   }

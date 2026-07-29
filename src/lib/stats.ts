@@ -16,12 +16,15 @@ export function percentile(values: number[], percentileRank: number): number {
   const sorted = [...values].sort((a, b) => a - b);
   const idx = (percentileRank / 100) * (sorted.length - 1);
 
-  const lo = Math.floor(idx);
-  const hi = Math.ceil(idx);
+  const lowerIndex = Math.floor(idx);
+  const upperIndex = Math.ceil(idx);
 
-  if (lo === hi) return sorted[lo];
+  if (lowerIndex === upperIndex) return sorted[lowerIndex];
 
-  return sorted[lo] + (sorted[hi] - sorted[lo]) * (idx - lo);
+  return (
+    sorted[lowerIndex] +
+    (sorted[upperIndex] - sorted[lowerIndex]) * (idx - lowerIndex)
+  );
 }
 
 export function calculateMetricStats(

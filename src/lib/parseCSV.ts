@@ -3,8 +3,9 @@ import type { SurveyReading } from "./types";
 /** Parse a coordinate like "51.9409 N" or "0.2744 W" into a signed decimal. */
 function parseCoord(raw: string): number {
   const [value, dir] = raw.trim().split(/\s+/);
-  const n = Number(value);
-  return dir === "S" || dir === "W" ? -n : n;
+  const magnitude = Number(value);
+  // South and West are the negative hemispheres.
+  return dir === "S" || dir === "W" ? -magnitude : magnitude;
 }
 
 function splitLines(text: string): string[] {
