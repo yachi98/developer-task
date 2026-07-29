@@ -58,22 +58,6 @@ readings, computed as the 90th percentile of the active metric.
 
 ---
 
-## Assumptions
-
-- The survey data is a fixed sample for the A602 trial area, so it is bundled
-  with the app rather than fetched from a live source; swapping metrics never
-  hits the network.
-- "Points of interest" is interpreted as the **top 10% highest readings** (90th
-  percentile) of whichever metric is active — the sections most likely to need
-  attention.
-- Only points of interest get their own map marker (the full route is drawn as a
-  single polyline), since rendering a marker per reading would be needlessly
-  heavy for little added insight.
-- MPD and UKRI are surveyed independently, so their reading counts and sections
-  differ; each metric is summarised on its own.
-
----
-
 ## Features
 
 - **Metric toggle** — switch the whole dashboard between MPD and UKRI.
